@@ -1,13 +1,29 @@
 import express from 'express'
+import cors from 'cors'
 import { toyService } from './services/toy.service.js'
 import { userService } from './services/user.service.js'
 import cookieParser from 'cookie-parser';
 import { loggerService } from './services/logger.service.js';
 
+const corsOptions = {
+    origin: [
+      'http://127.0.0.1:8080',
+      'http://localhost:8080',
+  
+      'http://localhost:5173',
+      'http://127.0.0.1:5173',
+  
+      'http://localhost:5174',
+      'http://127.0.0.1:5174',
+    ],
+    credentials: true,
+  }
+
 const app = express()
 app.use(express.static('public'))
 app.use(cookieParser())
 app.use(express.json())
+app.use(cors(corsOptions))
 
 app.get('/api/toy', (req, res) => {
     const { title, inStock = null, price, labels = [] } = req.query

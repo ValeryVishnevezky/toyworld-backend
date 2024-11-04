@@ -23,5 +23,11 @@
     "password": "admin",
     "fullname": "admin",
     "isAdmin": true
+  },
+  {
+    "username": "valery",
+    "password": "valery",
+    "fullname": "Valery",
+    "_id": "zloQo"
   }
 ]
