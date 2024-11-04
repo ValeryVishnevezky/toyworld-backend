@@ -1,4 +1,5 @@
 import express from 'express'
+import path from 'path'
 import cors from 'cors'
 import { toyService } from './services/toy.service.js'
 import { userService } from './services/user.service.js'
@@ -26,7 +27,7 @@ app.use(express.json())
 app.use(cors(corsOptions))
 
 app.get('/api/toy', (req, res) => {
-    const { title, inStock = null, price, labels = [] } = req.query
+    const { title, inStock, price, labels = [] } = req.query
     const filterBy = { title, maxPrice: price, inStock, labels }
     toyService.query(filterBy)
         .then(toys => {
@@ -51,9 +52,9 @@ app.get('/api/toy/:toyId', (req, res) => {
 })
 
 app.post('/api/toy', (req, res) => {
-    const { name, price, labels, inStock } = req.body
+    const { title, price, labels, inStock } = req.body
     const toy = {
-        name,
+        title,
         price: +price,
         labels,
         inStock,
@@ -69,12 +70,13 @@ app.post('/api/toy', (req, res) => {
 })
 
 app.put('/api/toy', (req, res) => {
-    const { name, price, _id, labels } = req.body
+    const { title, price, _id, labels, inStock } = req.body
     const toy = {
         _id,
-        name,
+        title,
         price: +price,
         labels,
+        inStock,
     }
     toyService.save(toy)
         .then(savedToy => {

@@ -51,11 +51,11 @@ function remove(toyId) {
 function save(toy) {
     if (toy._id) {
         const idx = toys.findIndex(currToy => currToy._id === toy._id)
+        if (idx === -1) throw new Error('Toy not found')
         toys[idx] = { ...toys[idx], ...toy }
     } else {
         toy._id = utilService.makeId()
         toy.createdAt = Date.now()
-        toy.inStock = true
         toys.unshift(toy)
     }
     return _saveToysToFile().then(() => toy)
